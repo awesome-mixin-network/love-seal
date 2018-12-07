@@ -96,7 +96,7 @@ module.exports = {
     // this user
     let targetUser = await cache.getUserMust(uid)
     // their items
-    let records = await Record.findAll({ limit: 50, order: [['createdAt', 'DESC']] })
+    let records = await Record.findAll({ limit: 50, order: [['createdAt', 'DESC']], where: { 'creatorId': uid } })
     records = records.map((x) => {
       x = x.toJSON()
       x.creator = targetUser
