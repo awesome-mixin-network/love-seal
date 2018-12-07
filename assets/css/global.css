@@ -250,6 +250,13 @@ body {
 .create-form.sealed .seal-button {
   display: none;
 }
+.create-form .add-quota-link {
+  display: inline-block;
+  font-weight: bold;
+  margin-top: 20px;
+  color: white;
+  border-bottom: 1px solid white;
+}
 #quota-mask {
   position: fixed;
   top: 0;

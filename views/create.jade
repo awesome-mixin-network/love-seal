@@ -12,6 +12,8 @@ html(lang="en")
             textarea.textarea(name="content")
             button.seal-button.float-button(onclick="create()" disabled=insufficient)
               = insufficient ? "No enough quota to create": "Create"
+            if insufficient
+              a(href="/u/" + user.id).add-quota-link Go to add Quota              
     script.
       function validate() {
         var textarea = document.querySelector('.create-form textarea')

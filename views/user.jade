@@ -2,6 +2,7 @@ doctype html
 html(lang="en")
   include partials/head
   include mixins/item
+  include mixins/add-button
   body
     script.
       function show() {
@@ -50,17 +51,19 @@ html(lang="en")
             span.count 
               = items.length
             span love words 
-          .quota-block
-            span.quota-count Quota: 
-              em
-                = quotaCount
-            button.float-button.sm.deposit-button(onclick="show()") Add Quota
+          if user.id === targetUser.id
+            .quota-block
+              span.quota-count Quota: 
+                em
+                  = quotaCount
+              button.float-button.sm.deposit-button(onclick="show()") Add Quota
         .items
           if items.length !== 0
             each item in items
               +Item(item, {single: false})
           else
             .hint No words
+        +AddButton('add', '/create')
     #quota-mask
       .quota-hint 
         = quotaAmount + " PRS per Quota."
