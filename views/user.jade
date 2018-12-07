@@ -3,6 +3,38 @@ html(lang="en")
   include partials/head
   include mixins/item
   body
+    script.
+      function show() {
+        document.querySelector('.quota-copy-button').innerText = 'Copy Address';
+        document.getElementById('quota-mask').style.display = 'flex';
+      }
+      function copy(text) {
+        if (window.clipboardData && window.clipboardData.setData) {
+            // IE specific code path to prevent textarea being shown while dialog is visible.
+            clipboardData.setData("Text", text)
+
+        } else if (document.queryCommandSupported && document.queryCommandSupported("copy")) {
+          var textarea = document.createElement("textarea")
+          textarea.textContent = text
+          textarea.style.position = "fixed";  // Prevent scrolling to bottom of page in MS Edge.
+          document.body.appendChild(textarea)
+          textarea.select()
+          try {
+              document.execCommand("copy");  // Security exception may be thrown by some browsers.
+          } catch (ex) {
+              console.warn("Copy to clipboard failed.", ex)
+          } finally {
+              document.body.removeChild(textarea)
+          }
+        }
+      }
+      function onCopy(text) {
+        copy(text);
+        document.querySelector('.quota-copy-button').innerText = 'Copied!';
+        setTimeout(function () {
+          document.getElementById('quota-mask').style.display = 'none';
+        }, 1000)
+      }
     #container
       include partials/nav
       .content
@@ -18,9 +50,20 @@ html(lang="en")
             span.count 
               = items.length
             span love words 
+          .quota-block
+            span.quota-count Quota: 
+              em
+                = quotaCount
+            button.float-button.sm.deposit-button(onclick="show()") Add Quota
         .items
           if items.length !== 0
             each item in items
               +Item(item, {single: false})
           else
             .hint No words
+    #quota-mask
+      .quota-hint 
+        = quotaAmount + " PRS per Quota."
+      .quota-address
+        = quotaAddress
+      button.float-button.quota-copy-button(onclick="onCopy('"+quotaAddress+"')") Copy Address

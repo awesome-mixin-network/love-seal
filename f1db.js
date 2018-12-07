@@ -41,6 +41,14 @@ module.exports = {
       }
     })
   },
+  quota: function (userId) {
+    return this.request({
+      method: 'GET',
+      url: '/quota',
+      headers: this.formAuthHeaders(userId),
+      data: {}
+    })
+  },
   createRecord: function (userId, content) {
     return this.request({
       method: 'POST',

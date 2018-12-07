@@ -1,5 +1,7 @@
 const User =require('./model/user')
 const Record =require('./model/record')
+const f1db =require('./f1db')
+
 var caches = {}
 module.exports = {
   get: function (name, key) {
@@ -28,6 +30,17 @@ module.exports = {
     if (ret === null) {
       ret = (await Record.findByPk(id)).toJSON()
       this.set('record', id, ret)
+    }
+    return ret
+  },
+  getQuotaMust: async function (uid, refresh) {
+    let ret = this.get('quota', uid)
+    if (ret === null || refresh === true) {
+      let user = await this.getUserMust(uid)
+      let resp = await f1db.quota(user.f1dbId)
+      let quota = resp.data.quota
+      this.set('quota', uid, quota)
+      return quota
     }
     return ret
   }

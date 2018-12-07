@@ -10,8 +10,8 @@ html(lang="en")
         .create-form
           form(id="form" method="POST" action="/create" onsubmit="return validate()")
             textarea.textarea(name="content")
-            button.seal-button.float-button(onclick="create()")
-              = "Create"
+            button.seal-button.float-button(onclick="create()" disabled=insufficient)
+              = insufficient ? "No enough quota to create": "Create"
     script.
       function validate() {
         var textarea = document.querySelector('.create-form textarea')
@@ -30,6 +30,7 @@ html(lang="en")
         }
         document.querySelector('.create-form').classList.add('sealed')
         document.querySelector('.create-form textarea').readOnly = true
+        document.querySelector('.create-form seal-button').disabled = true
         return true
       }
       function create() {

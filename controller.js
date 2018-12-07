@@ -3,6 +3,7 @@ const User = require('./model/user')
 const Record = require('./model/record')
 const f1db = require('./f1db')
 const cache = require('./cache')
+const conf = require('./config.json')
 
 module.exports = {
   index: async function (ctx) {
@@ -26,12 +27,19 @@ module.exports = {
   }, 
   
   create: async function (ctx) {
+    let user = ctx.state.user
+    let quota = await cache.getQuotaMust(user.id, true)
+    ctx.state.insufficient = false
+    if (Math.floor(quota.balance / parseFloat(quota.quota_amount))< 0.0000001) {
+      ctx.state.insufficient = true
+    }
     await ctx.render('create')
   },
 
   handleCreate: async function (ctx) {
     let createData = ctx.request.body
     let user = ctx.state.user
+    // validated
     if (createData.content.length === 0) {
       ctx.state.message = ("Invalid content")
       await ctx.render('error')
@@ -39,12 +47,25 @@ module.exports = {
     }
     let content = createData.content
     var resp, contentId, snapshotId
+    // 0. check quota
+    try {
+      let quota = await cache.getQuotaMust(user.id, true)
+      if (Math.floor(quota.balance / parseFloat(quota.quota_amount))< 0.0000001) {
+        ctx.state.message = ("Insufficient quota")
+        await ctx.render('error')
+        return
+      }
+    } catch (e) {
+      ctx.state.message = ("handleCreate(getAssets): " + e.message)
+      await ctx.render('error')
+      return
+    }
     // 1. create a item
     try {
       resp = await f1db.createRecord(user.f1dbId, content)
       contentId = resp.data.cid
     } catch (e) {
-      ctx.state.message = ("handleCreate: createRecord: " + e.toString())
+      ctx.state.message = ("handleCreate(createRecord): " + e.message)
       await ctx.render('error')
       return
     }
@@ -53,7 +74,7 @@ module.exports = {
       resp2 = await f1db.keepRecord(user.f1dbId, contentId)
       snapshotId = resp2.data.snapshot_id
     } catch (e) {
-      ctx.state.message = ("handleCreate: keepRecord: " + e.toString())
+      ctx.state.message = ("handleCreate(keepRecord): " + e.message)
       await ctx.render('error')
       return
     }
@@ -71,9 +92,9 @@ module.exports = {
 
   // user
   singleUser: async function (ctx) {
-    let id = ctx.params.uid
+    let uid = ctx.params.uid
     // this user
-    let targetUser = await cache.getUserMust(id)
+    let targetUser = await cache.getUserMust(uid)
     // their items
     let records = await Record.findAll({ limit: 50, order: [['createdAt', 'DESC']] })
     records = records.map((x) => {
@@ -82,6 +103,11 @@ module.exports = {
       return x
     })
     ctx.state.targetUser = targetUser
+    let quota = await cache.getQuotaMust(uid, true)
+    ctx.state.quotaCount = Math.floor(quota.balance / parseFloat(quota.quota_amount))
+    ctx.state.quotaAddress = quota.public_key
+    ctx.state.quotaAmount = quota.quota_amount
+    // console.log(quota)
     ctx.state.items = records
     await ctx.render('user')
   },
