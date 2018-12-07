@@ -1,0 +1,26 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    user-select: none;
+  }
+  
+  a
+  {
+    color: inherit;
+    text-decoration: none;
+  }
+  
+  .lnr
+  {
+    line-height: inherit;
+  }
+  
+  input, button, textarea
+  {
+    font-family: inherit;
+  }
+  h1, h2, h3, h4, h5, h6
+  {
+    font-weight: normal;
+  }

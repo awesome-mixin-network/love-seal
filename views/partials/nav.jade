@@ -1,0 +1,15 @@
+.nav
+  .top
+    .menu-trigger(onclick="toggleMenuTrigger()")
+    .menu-items
+      if user
+        .menu-item
+          a(href='/u/' + user.id) Me
+        .menu-item
+          a(href='/logout') Logout
+      else
+        .menu-item
+          a(href="/login") Login
+  h1.site-title.italia
+    a(href="/") Love Seal
+  div.site-description.palatino-linotype Etch your love on the blockchain permanently

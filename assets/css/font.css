@@ -1,0 +1,12 @@
+@font-face {
+  font-family: 'Italiana';
+  src: url(../fonts/Italiana-Regular.ttf);
+  font-weight: normal;
+  font-style: normal
+}
+@font-face {
+  font-family: 'palatino-linotype';
+  src: url(../fonts/palatino-linotype.ttf);
+  font-weight: normal;
+  font-style: normal
+}

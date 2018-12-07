@@ -1,0 +1,26 @@
+doctype html
+html(lang="en")
+  include partials/head
+  include mixins/item
+  body
+    #container
+      include partials/nav
+      .content
+        .profile-form
+          .title
+            span
+              = targetUser.name
+            span 's Profile
+          .summary
+            span.name
+              = targetUser.name
+            span sealed
+            span.count 
+              = items.length
+            span love words 
+        .items
+          if items.length !== 0
+            each item in items
+              +Item(item, {single: false})
+          else
+            .hint No words

@@ -1,0 +1,19 @@
+{
+    "f1db_gateway": "http://127.0.0.1:4321",
+    "port": 4568,
+    "auth": {
+        "twitter": {
+            "key": "your twitter key",
+            "secret": "your twitter secret",
+            "callback": "your twitter callback"        
+        }
+    },
+    "fallback_db": {
+        "datebase": "your db name",
+        "username": "your username",
+        "password": "your password",
+        "type": "mysql",
+        "host": "127.0.0.1",
+        "port": 3306
+    }
+}

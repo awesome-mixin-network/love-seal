@@ -1,0 +1,37 @@
+doctype html
+html(lang="en")
+  include partials/head
+  include mixins/item
+  include mixins/add-button
+  body
+    #container
+      include partials/nav
+      .content
+        .create-form
+          form(id="form" method="POST" action="/create" onsubmit="return validate()")
+            textarea.textarea(name="content")
+            button.seal-button.float-button(onclick="create()")
+              = "Create"
+    script.
+      function validate() {
+        var textarea = document.querySelector('.create-form textarea')
+        var content = textarea.value.trim()
+        if (content.length < 4) {
+          alert('More words please.')
+          return false
+        }
+        if (content.length > 255) {
+          alert('Less words please.')
+          return false
+        }
+        if ((content.match(/\n/g) || []).length > 10) {
+          alert('Too many lines, reduce your words please.')
+          return false
+        }
+        document.querySelector('.create-form').classList.add('sealed')
+        document.querySelector('.create-form textarea').readOnly = true
+        return true
+      }
+      function create() {
+        // document.getElementById('form').submit()
+      }

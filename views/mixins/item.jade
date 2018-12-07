@@ -1,0 +1,6 @@
+mixin Item(item, opts)
+  a.item.palatino-linotype(href=`/s/${item.id}` class=`${opts.single ? 'single' : ''}`)
+    .text
+      = item.text
+    .name
+      = `${item.creator.name} Wrote`

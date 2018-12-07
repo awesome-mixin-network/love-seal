@@ -1,0 +1,26 @@
+head
+  title 
+    = title
+  include meta
+  link(rel="stylesheet", href="/css/reset.css")
+  link(rel="stylesheet", href="/css/font.css")
+  link(rel="stylesheet", href="/css/global.css")
+  link(rel="stylesheet", href="/fonts/linearicons.css")
+  link(rel="shortcut icon", href="/images/logo-64.png", type="image/x-icon")
+  link(rel="apple-touch-icon", href="/images/logo-512.png", type="image/x-icon")
+  script.
+    function log(x) {
+      console.log(x)
+    }
+    function toggleMenuTrigger() {
+      var trigger = document.querySelector('.menu-trigger')
+      var items = document.querySelector('.menu-items')
+      if (trigger.classList.contains('active')) {
+        trigger.classList.remove('active')
+        items.classList.remove('active')
+      } else {
+        trigger.classList.add('active')
+        items.classList.add('active')
+      }
+    }
+  

@@ -1,0 +1,16 @@
+doctype html
+html(lang="en")
+  include partials/head
+  include mixins/item
+  include mixins/add-button
+  body
+    #container
+      include partials/nav
+      .content
+        .item-wrapper
+          +Item(item, {single: true})
+          .item-meta
+            a.item-snapshot(href="https://mixin.one/snapshots/" + item.snapshotId) @BLOCKCHAIN 
+            i · 
+            a.item-snapshot(href="https://ipfs.io/ipfs/" + item.contentId) @IPFS
+        +AddButton('add', '/create')

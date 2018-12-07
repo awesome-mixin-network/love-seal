@@ -1,0 +1,13 @@
+doctype html
+html(lang="en")
+  include partials/head
+  include mixins/item
+  include mixins/add-button
+  body
+    #container
+      include partials/nav
+      .content
+        .items
+          each item in items
+            +Item(item, {single: false})
+        +AddButton('add', '/create')
