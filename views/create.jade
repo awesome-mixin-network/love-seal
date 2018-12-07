@@ -11,7 +11,7 @@ html(lang="en")
           form(id="form" method="POST" action="/create" onsubmit="return validate()")
             textarea.textarea(name="content")
             button.seal-button.float-button(onclick="create()" disabled=insufficient)
-              = insufficient ? "No enough quota to create": "Create"
+              = insufficient ? "No enough quota": "Create"
             if insufficient
               a(href="/u/" + user.id).add-quota-link Go to add Quota              
     script.
