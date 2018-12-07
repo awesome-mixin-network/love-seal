@@ -51,7 +51,7 @@ html(lang="en")
             span.count 
               = items.length
             span love words 
-          if user.id === targetUser.id
+          if user && user.id === targetUser.id
             .quota-block
               span.quota-count Quota: 
                 em
