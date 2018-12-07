@@ -10,7 +10,6 @@ module.exports = {
         data: opts.data,
         headers: opts.headers
       }).then((resp) => {
-        console.log(resp.data)
         if (resp && resp.data) {
           return resolve(resp.data)
         } else {
