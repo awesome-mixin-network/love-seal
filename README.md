@@ -2,7 +2,7 @@
 
 **Love Seal** is a simple Web App to etch your love on the blockchain permanently.
 
-All contents will be store in [F1DB](https://github.com/fox-one/F1DB).
+All contents will be stored in [F1DB](https://github.com/fox-one/F1DB).
 
 ## DEMO
 
